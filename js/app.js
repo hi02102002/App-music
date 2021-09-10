@@ -32,68 +32,68 @@ class AppMusic {
   #audioList = [
     new AudioItem(
       'Muộn Rồi Mà Sao Còn',
-      '../audio/MuonRoiMaSaoCon.mp3',
-      '../img/MuonRoiMaSaoCon.jfif',
+      './audio/MuonRoiMaSaoCon.mp3',
+      './img/MuonRoiMaSaoCon.jfif',
       'Sơn Tùng M-TP'
     ),
 
     new AudioItem(
       'Chạy Ngay Đi',
-      '../audio/ChayNgayDi.mp3',
-      '../img/ChayNgayDi.png',
+      './audio/ChayNgayDi.mp3',
+      './img/ChayNgayDi.png',
       'Sơn Tùng M-TP'
     ),
 
     new AudioItem(
       'Có Chắc Yêu Là Đây',
-      '../audio/CoChacYeuLaDay.mp3',
-      '../img/CoChavYeuLaDay.jpg',
+      './audio/CoChacYeuLaDay.mp3',
+      './img/CoChavYeuLaDay.jpg',
       'Sơn Tùng M-TP'
     ),
 
     new AudioItem(
       'Nàng Thơ',
-      '../audio/NangTho.mp3',
-      '../img/NangTho.jpg',
+      './audio/NangTho.mp3',
+      './img/NangTho.jpg',
       'Hoàng Dũng'
     ),
 
     new AudioItem(
       'STAY',
-      '../audio/Stay.mp3',
-      '../img/Stay.png',
+      './audio/Stay.mp3',
+      './img/Stay.png',
       'Justin Bieber, The Kid LAROI'
     ),
 
     new AudioItem(
       'The Playah (feat. SlimV)',
-      '../audio/ThePlayAh.mp3',
-      '../img/ThePlayAh.jpg',
+      './audio/ThePlayAh.mp3',
+      './img/ThePlayAh.jpg',
       'Soobin Hoàng Sơn, SlimV'
     ),
 
     new AudioItem(
       'Thích Em Hơi Nhiều',
-      '../audio/ThichEmHoiNhieu.mp3',
-      '../img/ThichEmHoiNhieu.jfif',
+      './audio/ThichEmHoiNhieu.mp3',
+      './img/ThichEmHoiNhieu.jfif',
       'Wren Evans'
     ),
 
     new AudioItem(
       'WAP (feat. Megan Thee Stallion)',
-      '../audio/Wap.mp3',
-      '../img/Wap.jfif',
+      './audio/Wap.mp3',
+      './img/Wap.jfif',
       'Cardi B, Megan Thee Stallion'
     ),
 
     new AudioItem(
       'một triệu like',
-      '../audio/MotTrieuLike.mp3',
-      '../img/MotTrieuLike.jfif',
+      './audio/MotTrieuLike.mp3',
+      './img/MotTrieuLike.jfif',
       'Đen, Thành Đồng'
     ),
 
-    new AudioItem('UP', '../audio/Up.mp3', '../img/Up.jfif', 'Cardi B'),
+    new AudioItem('UP', './audio/Up.mp3', './img/Up.jfif', 'Cardi B'),
   ];
   constructor() {
     this._renderListAudio();
