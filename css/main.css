@@ -24,7 +24,6 @@ body {
   letter-spacing: -0.03rem;
   font-weight: 600;
   color: #b3b3b3;
-  background-color: #b3b3b3;
   width: 100vw;
   height: 100vh;
   background-image: url("../img/pankaj-patel--XiEdejuJso-unsplash.jpg");
@@ -55,6 +54,7 @@ ol {
 
 .app {
   max-width: 37.5rem;
+  height: 100%;
   margin: 0 auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -63,7 +63,6 @@ ol {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  height: 100vh;
   -webkit-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
@@ -72,6 +71,7 @@ ol {
   position: relative;
   -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.5);
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
 }
 .app::-webkit-scrollbar {
   width: 0;
@@ -80,6 +80,16 @@ ol {
   .app {
     max-width: 100%;
   }
+}
+.app .play-pause .pause {
+  display: none;
+}
+.app .play-pause .play {
+  display: block;
+}
+
+.app.is-main-player {
+  overflow: hidden;
 }
 
 .text-semibold,
@@ -124,7 +134,14 @@ ol {
 }
 
 /* Base */
-.header {
+.dashboard {
+  background: #121212;
+  background: -o-linear-gradient(bottom, #121212 40%, #db3b3b 100%);
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(40%, #121212), to(#db3b3b));
+  background: linear-gradient(0deg, #121212 40%, #db3b3b 100%);
+  padding: 0 1.6rem;
+}
+.dashboard .header {
   padding: 1.5rem 0;
   text-align: center;
   display: -webkit-box;
@@ -136,18 +153,9 @@ ol {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  background-color: #db3b3b;
 }
-.header-title {
+.dashboard .header-title {
   color: #fff;
-}
-
-.dashboard {
-  background: #121212;
-  background: -o-linear-gradient(bottom, #121212 40%, #db3b3b 100%);
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(40%, #121212), to(#db3b3b));
-  background: linear-gradient(0deg, #121212 40%, #db3b3b 100%);
-  padding: 0 1.6rem;
 }
 .dashboard-img {
   width: 20rem;
@@ -236,12 +244,10 @@ ol {
   align-items: center;
   border-radius: 50%;
 }
-.dashboard-btns .play-pause .pause {
-  display: none;
-}
 
 .content {
   padding: 1.6rem;
+  padding-bottom: 6.6rem;
 }
 .content .audio-list {
   display: -webkit-box;
@@ -263,6 +269,18 @@ ol {
 }
 .content .audio-item:not(:last-child) {
   margin-bottom: 1.6rem;
+}
+.content .audio-ordinal {
+  min-width: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 .content .audio-img {
   width: 4.8rem;
@@ -293,11 +311,9 @@ ol {
 }
 
 .bottom-player {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  width: 37.5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -306,6 +322,12 @@ ol {
   align-items: center;
   height: 5rem;
   background-color: #2c2c2c;
+  cursor: pointer;
+}
+@media screen and (max-width: 767px) {
+  .bottom-player {
+    width: 100%;
+  }
 }
 .bottom-player .audio-img {
   width: 5rem;
@@ -342,7 +364,236 @@ ol {
   cursor: pointer;
   margin: 0 1.6rem;
 }
-.bottom-player .play-pause .pause {
+
+.main-player {
+  padding: 0 1.6rem 1.6rem 1.6rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 37.5rem;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-backdrop-filter: blur(5rem);
+  backdrop-filter: blur(5rem);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease-in;
+  -o-transition: all 0.4s ease-in;
+  transition: all 0.4s ease-in;
+}
+@media screen and (max-width: 767px) {
+  .main-player {
+    max-width: 100%;
+  }
+}
+.main-player .header {
+  height: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+.main-player .header span,
+.main-player .header h3 {
+  color: #fff;
+  display: block;
+  text-align: center;
+}
+.main-player .header span {
+  margin-bottom: 0.2rem;
+}
+.main-player .header .hidden,
+.main-player .header .more {
+  cursor: pointer;
+}
+.main-player .player-img {
+  width: 34rem;
+  height: 34rem;
+  margin: 5rem auto;
+  border-radius: 0.2rem;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+@media screen and (max-width: 374px) {
+  .main-player .player-img {
+    width: 28rem;
+    height: 28rem;
+    margin: 2rem auto;
+  }
+}
+.main-player .player-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+}
+.main-player .title-player {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+.main-player .title-player .song-infor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.main-player .title-player .song-infor .name {
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+.main-player .title-player .like {
+  cursor: pointer;
+}
+.main-player .title-player .like svg {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+.main-player .title-player .like:hover svg {
+  fill: #57b65f;
+}
+.main-player .title-player .like:hover path {
+  stroke: #57b65f;
+}
+.main-player .progress-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-bottom: 1.6rem;
+}
+.main-player .progress-container .progress {
+  cursor: pointer;
+  width: 100%;
+  height: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0.8rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+.main-player .progress-container .line {
+  position: absolute;
+  width: 70%;
+  height: 100%;
+  border-radius: 0.8rem;
+  background-color: #fff;
+}
+.main-player .progress-container .circle {
+  width: 1.3rem;
+  height: 1.3rem;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: calc(70% - 1.3rem);
+}
+.main-player .progress-container .song-duration {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.main-player .progress-container .song-duration span {
+  font-weight: 700;
+}
+.main-player .control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 1.6rem;
+}
+.main-player .control > * {
+  cursor: pointer;
+}
+.main-player .control .play-pause {
+  background-color: #fff;
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.main-player .control .play-pause svg {
+  width: 3.657rem;
+  height: 3.657rem;
+}
+.main-player .control .play-pause .pause {
+  display: none;
+}
+.main-player .control .play-pause .play {
+  display: block;
+}
+
+.app.is-main-player + .main-player {
+  visibility: visible;
+  opacity: 1;
+  top: 0;
+}
+
+.app.is-playing + .main-player .pause,
+.app.is-playing .play-pause .pause {
+  display: block;
+}
+.app.is-playing + .main-player .play,
+.app.is-playing .play-pause .play {
   display: none;
 }
 
