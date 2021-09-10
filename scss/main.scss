@@ -559,16 +559,16 @@ ol {
       -ms-flex-direction: column;
       flex-direction: column;
 
-      .name-warpper {
-        overflow-x: hidden;
-        width: 100%;
-        max-width: 25rem;
-        position: relative;
-      }
       .name {
         color: $white-color;
         margin-bottom: 0.8rem;
-        white-space: nowrap;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        max-width: 25rem;
       }
     }
 

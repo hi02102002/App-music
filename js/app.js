@@ -205,11 +205,6 @@ class AppMusic {
       name.style.color = '#b3b3b3';
     });
     nameSongItem[this.#currentSong].style.color = '#57b65f';
-
-    if (nameSongMainPlayer.getBoundingClientRect().width >= 250) {
-      nameSongMainPlayer.style.animation =
-        'marquee 4s ease-in-out infinite normal';
-    }
   }
 
   _nextSong() {
