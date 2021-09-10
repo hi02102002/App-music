@@ -8,6 +8,27 @@ $green-color: #57b65f;
 $orange-color: #db3b3b;
 /* Variable */
 
+/*Animation*/
+@-webkit-keyframes marquee {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
+@keyframes marquee {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
 /* Base */
 *,
 *::after,
@@ -496,7 +517,7 @@ ol {
     -o-object-fit: cover;
     object-fit: cover;
 
-    @media screen and (max-width: 374px) {
+    @media screen and (max-width: 459px) {
       width: 28rem;
       height: 28rem;
       margin: 2rem auto;
@@ -538,9 +559,16 @@ ol {
       -ms-flex-direction: column;
       flex-direction: column;
 
+      .name-warpper {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 25rem;
+        position: relative;
+      }
       .name {
         color: $white-color;
         margin-bottom: 0.8rem;
+        white-space: nowrap;
       }
     }
 
@@ -586,7 +614,7 @@ ol {
 
     .line {
       position: absolute;
-      width: 70%;
+      width: 0;
       height: 100%;
       border-radius: 0.8rem;
       background-color: $white-color;
@@ -602,7 +630,7 @@ ol {
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
-      left: calc(70% - 1.3rem);
+      left: 0;
     }
 
     .song-duration {
@@ -663,6 +691,17 @@ ol {
       }
       .play {
         display: block;
+      }
+    }
+
+    .random.active {
+      svg path {
+        stroke: $green-color;
+      }
+    }
+    .repeat.active {
+      svg path {
+        stroke: $green-color;
       }
     }
   }

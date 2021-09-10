@@ -1,3 +1,4 @@
+'use strict';
 const dashboardImg = document.querySelector('.dashboard-img');
 const app = document.querySelector('.app');
 const audio = document.querySelector('audio');
@@ -6,6 +7,8 @@ const bottomPlayer = document.querySelector('.bottom-player');
 const btnHiddenMainPlayer = document.querySelector('.main-player .hidden');
 const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
+const randomBtn = document.querySelector('.control .random');
+const repeatBtn = document.querySelector('.control .repeat');
 
 console.log(audio);
 
@@ -99,7 +102,10 @@ class AppMusic {
     this._renderListAudio();
     this._playerUi();
     this._loadCurrentSong();
-    this._eventHandle();
+    this._selectSong();
+    this._eventControl();
+    this._playingProgress();
+    this._autoNextSong();
   }
 
   _renderListAudio() {
@@ -154,6 +160,19 @@ class AppMusic {
     }
   }
 
+  _conventTime(inputSecond) {
+    let seconds = Math.floor(inputSecond % 60);
+    let minutes = Math.floor(inputSecond / 60);
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+    return `${minutes}:${seconds}`;
+  }
+
+  _random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   _loadCurrentSong() {
     const nameSongBottomPlayer = document.querySelector('.bottom-player .name');
     const authorSongBottomPlayer = document.querySelector(
@@ -186,6 +205,11 @@ class AppMusic {
       name.style.color = '#b3b3b3';
     });
     nameSongItem[this.#currentSong].style.color = '#57b65f';
+
+    if (nameSongMainPlayer.getBoundingClientRect().width >= 250) {
+      nameSongMainPlayer.style.animation =
+        'marquee 4s ease-in-out infinite normal';
+    }
   }
 
   _nextSong() {
@@ -204,7 +228,51 @@ class AppMusic {
     this._loadCurrentSong();
   }
 
-  _eventHandle() {
+  _randomSong() {
+    const randomNumber = this._random(0, this.#audioList.length - 1);
+    this.#currentSong = randomNumber;
+    this._loadCurrentSong();
+  }
+
+  _repeatSong() {
+    if (this.#isRepeat) {
+      audio.loop = true;
+    } else {
+      audio.loop = false;
+    }
+  }
+
+  _selectSong() {
+    const songs = document.querySelectorAll('.audio-item');
+    songs.forEach((song, index) => {
+      song.addEventListener(
+        'click',
+        function () {
+          this.#currentSong = index;
+          this._loadCurrentSong();
+          audio.play();
+        }.bind(this)
+      );
+    });
+  }
+
+  _autoNextSong() {
+    if (audio.loop === false) {
+      audio.addEventListener(
+        'ended',
+        function () {
+          if (this.#isRandom) {
+            this._randomSong();
+          } else {
+            this._nextSong();
+          }
+          audio.play();
+        }.bind(this)
+      );
+    }
+  }
+
+  _eventControl() {
     // click to open audio and pause
     btnPlayPause.forEach(btn => {
       btn.addEventListener(
@@ -218,6 +286,29 @@ class AppMusic {
         }.bind(this)
       );
     });
+
+    // click random to random song
+    randomBtn.addEventListener(
+      'click',
+      function () {
+        this.#isRandom = !this.#isRandom;
+        if (this.#isRandom === true) {
+          randomBtn.classList.add('active');
+        } else {
+          randomBtn.classList.remove('active');
+        }
+      }.bind(this)
+    );
+
+    // click repeat to repeat song
+    repeatBtn.addEventListener(
+      'click',
+      function () {
+        this.#isRepeat = !this.#isRepeat;
+        repeatBtn.classList.toggle('active');
+        this._repeatSong();
+      }.bind(this)
+    );
 
     //when audio is playing
     audio.addEventListener(
@@ -237,18 +328,28 @@ class AppMusic {
       }.bind(this)
     );
 
+    // move next song
     nextBtn.addEventListener(
       'click',
       function () {
-        this._nextSong();
+        if (this.#isRandom) {
+          this._randomSong();
+        } else {
+          this._nextSong();
+        }
         audio.play();
       }.bind(this)
     );
 
+    // move prev song
     prevBtn.addEventListener(
       'click',
       function () {
-        this._prevSong();
+        if (this.#isRandom) {
+          this._randomSong();
+        } else {
+          this._prevSong();
+        }
         audio.play();
       }.bind(this)
     );
@@ -266,6 +367,46 @@ class AppMusic {
     btnHiddenMainPlayer.addEventListener('click', function () {
       app.classList.remove('is-main-player');
     });
+  }
+
+  _playingProgress() {
+    const start = document.querySelector('.song-duration .start');
+    const end = document.querySelector('.song-duration .end');
+    const progressBar = document.querySelector('.progress');
+    const now = progressBar.querySelector('.line');
+    const circle = progressBar.querySelector('.circle');
+
+    audio.addEventListener(
+      'loadedmetadata',
+      function () {
+        start.innerHTML = this._conventTime(audio.currentTime);
+        end.innerHTML = this._conventTime(audio.duration);
+      }.bind(this)
+    );
+
+    progressBar.addEventListener('click', function (event) {
+      let coordStart = progressBar.getBoundingClientRect().left;
+      let coordEnd = event.pageX; // get coordinate x
+      let p =
+        (coordEnd - coordStart) / progressBar.getBoundingClientRect().width; // get position
+
+      now.style.width = p * 100 + '%'; // set width for now
+      circle.style.left =
+        now.getBoundingClientRect().width -
+        circle.getBoundingClientRect().width +
+        'px';
+      audio.currentTime = p * audio.duration;
+      audio.play();
+    });
+
+    setInterval(() => {
+      start.innerHTML = this._conventTime(audio.currentTime);
+      now.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+      circle.style.left =
+        now.getBoundingClientRect().width -
+        circle.getBoundingClientRect().width +
+        'px';
+    }, 1000);
   }
 }
 

@@ -1,5 +1,26 @@
 /* Variable */
 /* Variable */
+/*Animation*/
+@-webkit-keyframes marquee {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
+@keyframes marquee {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
 /* Base */
 *,
 *::after,
@@ -431,7 +452,7 @@ ol {
   -o-object-fit: cover;
   object-fit: cover;
 }
-@media screen and (max-width: 374px) {
+@media screen and (max-width: 459px) {
   .main-player .player-img {
     width: 28rem;
     height: 28rem;
@@ -472,9 +493,16 @@ ol {
   -ms-flex-direction: column;
   flex-direction: column;
 }
+.main-player .title-player .song-infor .name-warpper {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 25rem;
+  position: relative;
+}
 .main-player .title-player .song-infor .name {
   color: #fff;
   margin-bottom: 0.8rem;
+  white-space: nowrap;
 }
 .main-player .title-player .like {
   cursor: pointer;
@@ -510,7 +538,7 @@ ol {
 }
 .main-player .progress-container .line {
   position: absolute;
-  width: 70%;
+  width: 0;
   height: 100%;
   border-radius: 0.8rem;
   background-color: #fff;
@@ -525,7 +553,7 @@ ol {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  left: calc(70% - 1.3rem);
+  left: 0;
 }
 .main-player .progress-container .song-duration {
   display: -webkit-box;
@@ -580,6 +608,12 @@ ol {
 }
 .main-player .control .play-pause .play {
   display: block;
+}
+.main-player .control .random.active svg path {
+  stroke: #57b65f;
+}
+.main-player .control .repeat.active svg path {
+  stroke: #57b65f;
 }
 
 .app.is-main-player + .main-player {
