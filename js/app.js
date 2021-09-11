@@ -10,13 +10,6 @@ const nextBtn = document.querySelector('.next');
 const randomBtn = document.querySelector('.control .random');
 const repeatBtn = document.querySelector('.control .repeat');
 
-console.log(audio);
-
-// const scroller = new LocomotiveScroll({
-//   el: document.querySelector('[data-scroll-container]'),
-//   smooth: true,
-// });
-
 class AudioItem {
   constructor(name, audioUrl, imgUrl, author) {
     this.name = name;
@@ -242,7 +235,8 @@ class AppMusic {
     songs.forEach((song, index) => {
       song.addEventListener(
         'click',
-        function () {
+        function (e) {
+          if (e.target.closest('.more')) return;
           this.#currentSong = index;
           this._loadCurrentSong();
           audio.play();
@@ -354,7 +348,13 @@ class AppMusic {
   _playerUi() {
     //when click bottom player to show main-player
     bottomPlayer.addEventListener('click', function (e) {
-      if (e.target !== e.currentTarget) return;
+      if (
+        e.target.closest('.bottom-player .like') ||
+        e.target.closest('.bottom-player .play-pause')
+      ) {
+        return;
+      }
+
       app.classList.add('is-main-player');
     });
 
